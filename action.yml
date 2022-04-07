@@ -3,17 +3,19 @@ name: Setup JDK Maven and Git
 description: setting up the required tools
 
 inputs:
-  username:
-    required: true
-    type: string
-secrets:
   muleMavenEEUser:
     required: true
+    type: string
   muleMavenEEPwd:
     required: true
   ghUser:
     required: true
+    type: string
   ghPwd:
+    required: true
+  anypointClientId:
+    required: true
+  anypointClientSecret:
     required: true
 
 runs:
@@ -25,19 +27,10 @@ runs:
         java-version: '11'
         distribution: 'temurin'
 
-    - name: Cache local Maven repository
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
-
     # add the required maven-repos and settings
     - name: maven-settings-xml
       uses: whelk-io/maven-settings-xml-action@v20
       with:
-        output_file: mvn/settings.xml
         repositories: |
           [
             {
@@ -66,12 +59,17 @@ runs:
           [
             { 
               "id": "MuleRepository", 
-              "username": "${{ secrets.muleMavenEEUser }}", 
-              "password": "${{ secrets.muleMavenEEPwd }}" 
+              "username": "${{ inputs.muleMavenEEUser }}", 
+              "password": "${{ inputs.muleMavenEEPwd }}" 
             },
             { 
               "id": "github", 
-              "username": "${{ secrets.ghUser }}", 
-              "password": "${{ secrets.ghPwd }}" 
+              "username": "${{ inputs.ghUser }}", 
+              "password": "${{ inputs.ghPwd }}" 
+            },
+            {
+              "id": "anypoint-exchange",
+              "username": "~~~Client~~~", 
+              "password": "${{ inputs.anypointClientId }}~?~${{ inputs.anypointClientSecret }}" 
             }
           ]
