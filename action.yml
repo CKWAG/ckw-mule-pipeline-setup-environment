@@ -29,6 +29,11 @@ runs:
         distribution: 'temurin'
 
     # add the required maven-repos and settings
+    - name: Set up Maven
+      uses: stCarolas/setup-maven@v5
+      with:
+        maven-version: 3.8.8
+        
     - name: maven-settings-xml
       uses: whelk-io/maven-settings-xml-action@v21
       with:
