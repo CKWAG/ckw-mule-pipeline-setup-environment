@@ -71,8 +71,7 @@ runs:
             { 
               "id": "github", 
               "username": "${{ inputs.ghUser }}", 
-              "password": "${{ inputs.ghPwd }}" ,
-               "http.proxyStrictSSL": false
+              "password": "${{ inputs.ghPwd }}" 
             },
             {
               "id": "anypoint-exchange",
